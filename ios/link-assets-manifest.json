@@ -1,0 +1,13 @@
+{
+  "migIndex": 1,
+  "data": [
+    {
+      "path": "assets/fonts/SortsMillGoudy-Italic.ttf",
+      "sha1": "42eeb0463d8d2686d6684602408968520522155b"
+    },
+    {
+      "path": "assets/fonts/SortsMillGoudy-Regular.ttf",
+      "sha1": "c512680d05fee63bd3512f71835914a3a4d1201d"
+    }
+  ]
+}
