@@ -6,7 +6,7 @@ const App = () => {
   return (
     <SafeAreaView style={styles.container}>
       <Text style={styles.regularText}>
-        Hello World
+        Text Reader
       </Text>
       <TextInputComponent />
     </SafeAreaView>
