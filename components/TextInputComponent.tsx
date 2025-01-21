@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, StyleSheet, Button } from 'react-native';
+import { View, Text, TextInput, StyleSheet, TouchableOpacity } from 'react-native';
 
 const TextInputComponent = () => {
   const [text, setText] = useState('');
@@ -17,12 +17,9 @@ const TextInputComponent = () => {
         value={text}
         onChangeText={setText}
       />
-      <Button
-        onPress={readText}
-        title="Read"
-        color="#841584"
-        accessibilityLabel="Read text out loud"
-        />
+      <TouchableOpacity style={styles.button} onPress={readText}>
+        <Text style={styles.buttonText}>Read aloud</Text>
+      </TouchableOpacity>
     </View>
   );
 };
@@ -35,13 +32,28 @@ const styles = StyleSheet.create({
   label: {
     fontSize: 16,
     marginBottom: 8,
+    fontFamily: 'SortsMillGoudy-Regular',
   },
   input: {
     height: 40,
     borderColor: '#cccccc',
+    fontFamily: 'SortsMillGoudy-Regular',
+    color: '#000',
     borderWidth: 1,
     paddingHorizontal: 8,
     borderRadius: 4,
+  },
+  button: {
+    backgroundColor: '#841584',
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    borderRadius: 5,
+  },
+  buttonText: {
+    color: '#ffffff',
+    fontSize: 18,
+    fontFamily: 'SortsMillGoudy-Regular',
+    textAlign: 'center',
   },
 });
 
