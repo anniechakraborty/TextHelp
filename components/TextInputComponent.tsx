@@ -4,14 +4,47 @@ import Tts from 'react-native-tts';
 
 const TextInputComponent = () => {
   const [text, setText] = useState('');
+  const [voice, setVoice] = useState('en-US');
+  const [playStop, setPlayStop] = useState(false);
+  const [playStopText, setPlayStopText] = useState('Play');
 
   const readTextAloud = ()=> {
-    if(text.length > 0){
-      Tts.speak(text);
+    setPlayStop(!playStop)
+    if(playStop===true){
+      setPlayStopText('Stop');
+      if(text.length > 0){
+        Tts.speak(text);
+        Tts.addEventListener('tts-start', eventPlayStarted);
+        Tts.addEventListener('tts-finish', eventPlayStopped);
+      }
+      else{
+        Tts.speak('Please enter some text to read');
+        Tts.addEventListener('tts-start', eventPlayStarted);
+        Tts.addEventListener('tts-finish', eventPlayStopped);
+      }
     }
     else{
-      Tts.speak('Please enter some text to read');
+      Tts.stop();
+      Tts.addEventListener('tts-cancel', eventPlayStopped);
     }
+  }
+
+  const eventPlayStopped = ()=>{
+    setPlayStopText('Play');
+    setPlayStop(true);
+  }
+
+  const eventPlayStarted = () =>{
+    setPlayStopText('Stop');
+    setPlayStop(false);
+  }
+
+  const clearText = () => {
+    setText('');
+  }
+
+  const changeVoice = () => {
+    Tts.voices().then(voices => console.log(voices));
   }
 
   return (
@@ -24,8 +57,16 @@ const TextInputComponent = () => {
         value={text}
         onChangeText={setText}
       />
-      <TouchableOpacity style={styles.button} onPress={readTextAloud}>
-        <Text style={styles.buttonText}>Read aloud</Text>
+      <View style={styles.playButtons}>
+        <TouchableOpacity style={styles.button} onPress={readTextAloud}>
+          <Text style={styles.buttonText}>{playStopText}</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.button} onPress={clearText}>
+          <Text style={styles.buttonText}>Clear</Text>
+        </TouchableOpacity>
+      </View>
+      <TouchableOpacity style={[styles.button, styles.secondRowBtn]} onPress={changeVoice}>
+        <Text style={styles.buttonText}>Change Voice</Text>
       </TouchableOpacity>
     </View>
   );
@@ -53,12 +94,17 @@ const styles = StyleSheet.create({
     borderRadius: 4,
     marginVertical: 10
   },
+  playButtons:{
+    flexDirection: 'row',
+    justifyContent:'space-between',
+  },
   button: {
     backgroundColor: '#841584',
     paddingVertical: 10,
     marginVertical: 10,
     paddingHorizontal: 20,
     borderRadius: 5,
+    width: '48%'
   },
   buttonText: {
     color: '#ffffff',
@@ -66,6 +112,10 @@ const styles = StyleSheet.create({
     fontFamily: 'SortsMillGoudy-Regular',
     textAlign: 'center',
   },
+  secondRowBtn: {
+    backgroundColor: '#af1faf',
+    width: '100%'
+  }
 });
 
 export default TextInputComponent;
